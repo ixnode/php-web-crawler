@@ -32,8 +32,6 @@ php-web-crawler 0.1.0 (02-24-2024 14:46:26) - Björn Hempel <bjoern@hempel.li>
 
 ## 2. Usage
 
-### 2.1) Simple Raw HTML
-
 ```php
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Source\Raw;
@@ -71,7 +69,9 @@ $html->parse()->getJsonStringFormatted();
 }
 ```
 
-### 2.2) More examples
+## 3. Advanced usage
+
+## 4. More examples
 
 * [examples/converter.php](examples/converter.php)
 * [examples/group.php](examples/group.php)
@@ -80,7 +80,7 @@ $html->parse()->getJsonStringFormatted();
 * [examples/sections.php](examples/sections.php)
 * [examples/simple-wiki-page.php](examples/simple-wiki-page.php)
 
-## 3. Development
+## 5. Development
 
 ```bash
 git clone git@github.com:ixnode/php-web-crawler.git && cd php-web-crawler
@@ -94,6 +94,6 @@ composer install
 composer test
 ```
 
-## 4. License
+## 6. License
 
 This library is licensed under the MIT License - see the [LICENSE.md](/LICENSE.md) file for details.
