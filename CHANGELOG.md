@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.4] - 2024-02-24
+
+* Add XpathSections examples
+
 ### [0.1.3] - 2024-02-24
 
 * Add XpathSection example
