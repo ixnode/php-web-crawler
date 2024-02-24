@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.7] - 2024-02-24
+
+* Adds converter PregMatch
+
 ### [0.1.6] - 2024-02-24
 
 * Adds englisch number converter
