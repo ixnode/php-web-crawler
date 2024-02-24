@@ -71,6 +71,58 @@ $html->parse()->getJsonStringFormatted();
 
 ## 3. Advanced usage
 
+### 3.1 Group
+
+```php
+$rawHtml = <<<HTML
+<html>
+    <head>
+        <title>Test Page</title>
+    </head>
+    <body>
+        <h1>Test Title</h1>
+        <p class="paragraph-1">Test Paragraph 1</p>
+        <p class="paragraph-2">Test Paragraph 2</p>
+    </body>
+</html>
+HTML;
+
+$html = new Raw(
+    $rawHtml,
+    new Field('title', new XpathTextNode('/html/head/title')),
+    new Group(
+        'content',
+        new Group(
+            'header',
+            new Field('h1', new XpathTextNode('/html/body//h1')),
+        ),
+        new Group(
+            'text',
+            new Field('p1', new XpathTextNode('/html/body//p[@class="paragraph-1"]')),
+            new Field('p2', new XpathTextNode('/html/body//p[@class="paragraph-2"]')),
+        )
+    )
+);
+
+$html->parse()->getJsonStringFormatted();
+// See below
+```
+
+```json
+{
+  "title": "Test Page",
+  "content": {
+    "header": {
+      "h1": "Test Title"
+    },
+    "text": {
+      "p1": "Test Paragraph 1",
+      "p2": "Test Paragraph 2"
+    }
+  }
+}
+```
+
 ## 4. More examples
 
 * [examples/converter.php](examples/converter.php)
