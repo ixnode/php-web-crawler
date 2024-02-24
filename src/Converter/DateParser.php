@@ -41,7 +41,7 @@ class DateParser implements Converter
      *
      * @inheritdoc
      */
-    public function getValue(string|int $value): int|string
+    public function getValue(string|int|null $value): string|int
     {
         $value = sprintf($this->wrapper, $value);
 

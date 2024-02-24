@@ -27,8 +27,12 @@ class Number implements Converter
      *
      * @inheritdoc
      */
-    public function getValue(string|int $value): int|string
+    public function getValue(string|int|null $value): string|int|null
     {
+        if (is_null($value)) {
+            return null;
+        }
+
         if (is_int($value)) {
             return $value;
         }

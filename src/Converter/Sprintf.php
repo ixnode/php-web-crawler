@@ -38,7 +38,7 @@ class Sprintf implements Converter
      *
      * @inheritdoc
      */
-    public function getValue(string|int $value): int|string
+    public function getValue(string|int|null $value): string
     {
         return sprintf($this->wrapper, $value);
     }

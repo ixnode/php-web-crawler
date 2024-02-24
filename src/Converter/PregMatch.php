@@ -16,21 +16,23 @@ namespace Ixnode\PhpWebCrawler\Converter;
 use LogicException;
 
 /**
- * Class PregReplace
+ * Class PregMatch
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-readonly class PregReplace implements Converter
+readonly class PregMatch implements Converter
 {
+    private const MATCH_DEFAULT = 0;
+
     /**
      * @param string $pattern
-     * @param string $replacement
+     * @param int $match
      */
     public function __construct(
         private string $pattern,
-        private string $replacement = ''
+        private int $match = self::MATCH_DEFAULT
     )
     {
     }
@@ -40,15 +42,24 @@ readonly class PregReplace implements Converter
      *
      * @inheritdoc
      */
-    public function getValue(string|int|null $value): string
+    public function getValue(string|int|null $value): string|null
     {
-        $replaced = preg_replace($this->pattern, $this->replacement, (string) $value);
-
-        if (!is_string($replaced)) {
-            throw new LogicException(sprintf('Unable to replace given value: %s', $value));
+        $matches = [];
+        if (!preg_match($this->pattern, (string) $value, $matches)) {
+            return null;
         }
 
-        return $replaced;
+        if (!array_key_exists($this->match, $matches)) {
+            return null;
+        }
+
+        $text = $matches[$this->match];
+
+        if (!is_string($text)) {
+            return null;
+        }
+
+        return $text;
     }
 }
 

@@ -25,9 +25,9 @@ interface Converter
     /**
      * Returns the converted value.
      *
-     * @param string|int $value
-     * @return string|int
+     * @param string|int|null $value
+     * @return string|int|null
      */
-    public function getValue(string|int $value): string|int;
+    public function getValue(string|int|null $value): string|int|null;
 }
 
