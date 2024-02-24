@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.1] - 2024-02-24
+
+* README.md changes
+
 ### [0.1.0] - 2024-02-23
 
 * Initial release with first crawler
