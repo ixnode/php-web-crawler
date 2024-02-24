@@ -42,6 +42,7 @@ class Url extends Source
         curl_setopt($curlInit, CURLOPT_CONNECTTIMEOUT, self::CONNECT_TIMEOUT);
         curl_setopt($curlInit, CURLOPT_RETURNTRANSFER, self::RETURN_TRANSFER);
         curl_setopt($curlInit, CURLOPT_USERAGENT, self::USER_AGENT);
+        curl_setopt($curlInit, CURLOPT_FOLLOWLOCATION, true);
         $response = curl_exec($curlInit);
         curl_close($curlInit);
 
