@@ -74,6 +74,11 @@ $html->parse()->getJsonStringFormatted();
 ### 3.1 Group
 
 ```php
+use Ixnode\PhpWebCrawler\Output\Field;
+use Ixnode\PhpWebCrawler\Output\Group;
+use Ixnode\PhpWebCrawler\Source\Raw;
+use Ixnode\PhpWebCrawler\Value\XpathTextNode;
+
 $rawHtml = <<<HTML
 <html>
     <head>
@@ -120,6 +125,69 @@ $html->parse()->getJsonStringFormatted();
       "p2": "Test Paragraph 2"
     }
   }
+}
+```
+
+### 3.2 XpathSection
+
+```php
+use Ixnode\PhpWebCrawler\Output\Field;
+use Ixnode\PhpWebCrawler\Output\Group;
+use Ixnode\PhpWebCrawler\Source\Raw;
+use Ixnode\PhpWebCrawler\Source\XpathSection;
+use Ixnode\PhpWebCrawler\Value\XpathTextNode;
+
+$rawHtml = <<<HTML
+<html>
+    <head>
+        <title>Test Page</title>
+    </head>
+    <body>
+        <div class="content">
+            <h1>Test Title</h1>
+            <p class="paragraph-1">Test Paragraph 1</p>
+            <p class="paragraph-2">Test Paragraph 2</p>
+        </div>
+    </body>
+</html>
+HTML;
+
+$html = new Raw(
+    $rawHtml,
+    new Field('title', new XpathTextNode('/html/head/title')),
+    new Group(
+        'content',
+        new XpathSection(
+            '/html/body//div[@class="content"]',
+            new Group(
+                'header',
+                new Field('h1', new XpathTextNode('./h1')),
+            ),
+            new Group(
+                'text',
+                new Field('p1', new XpathTextNode('./p[@class="paragraph-1"]')),
+                new Field('p2', new XpathTextNode('./p[@class="paragraph-2"]')),
+            )
+        )
+    )
+);
+
+$html->parse()->getJsonStringFormatted();
+// See below
+```
+
+```json
+{
+    "title": "Test Page",
+    "content": {
+        "header": {
+            "h1": "Test Title"
+        },
+        "text": {
+            "p1": "Test Paragraph 1",
+            "p2": "Test Paragraph 2"
+        }
+    }
 }
 ```
 
