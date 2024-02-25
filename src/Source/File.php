@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Source;
 
+use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use Ixnode\PhpWebCrawler\Tests\Unit\FileCrawlerTest;
 use LogicException;
 
@@ -24,7 +25,7 @@ use LogicException;
  * @since 0.1.0 (2024-02-24) First version.
  * @link FileCrawlerTest
  */
-class File extends Source
+class File extends BaseSource
 {
     /**
      * Adds the source to this object.

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Converter;
 
+use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
+
 /**
  * Class Trim
  *
@@ -20,7 +22,7 @@ namespace Ixnode\PhpWebCrawler\Converter;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class Trim implements Converter
+class Trim extends BaseConverter
 {
     /**
      * Returns the converted value.

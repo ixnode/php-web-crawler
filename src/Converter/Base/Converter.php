@@ -11,7 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Converter;
+namespace Ixnode\PhpWebCrawler\Converter\Base;
+
+use Ixnode\PhpWebCrawler\Source\Base\Source;
 
 /**
  * Interface Converter
@@ -23,11 +25,14 @@ namespace Ixnode\PhpWebCrawler\Converter;
 interface Converter
 {
     /**
-     * Returns the converted value.
-     *
-     * @param string|int|null $value
-     * @return string|int|null
+     * @return Source
      */
-    public function getValue(string|int|null $value): string|int|null;
+    public function getInitiator(): Source;
+
+    /**
+     * @param Source $initiator
+     * @return self
+     */
+    public function setInitiator(Source $initiator): self;
 }
 

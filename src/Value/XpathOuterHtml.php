@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Ixnode\PhpWebCrawler\Value;
 
 use DOMDocument;
+use DOMNode;
 use DOMNodeList;
 use DOMXPath;
-use DOMNode;
 use Ixnode\PhpContainer\Json;
+use Ixnode\PhpWebCrawler\Value\Base\BaseValue;
 use LogicException;
 
 /**
@@ -27,7 +28,7 @@ use LogicException;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class XpathOuterHtml extends Value
+class XpathOuterHtml extends BaseValue
 {
     /**
      * Returns the outer html of the given dom node.

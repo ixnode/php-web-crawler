@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Source;
 
+use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
+
 /**
  * Class Html
  *
@@ -20,7 +22,7 @@ namespace Ixnode\PhpWebCrawler\Source;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class Html extends Source
+class Html extends BaseSource
 {
     /**
      * Adds the source to this object.

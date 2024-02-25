@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Source;
 
+use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use Ixnode\PhpWebCrawler\Tests\Unit\FileCrawlerTest;
 
 /**
@@ -23,7 +24,7 @@ use Ixnode\PhpWebCrawler\Tests\Unit\FileCrawlerTest;
  * @since 0.1.0 (2024-02-24) First version.
  * @link FileCrawlerTest
  */
-class Raw extends Source
+class Raw extends BaseSource
 {
     /**
      * Adds the source to this object.

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Source;
 
+use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use LogicException;
 
 /**
@@ -22,13 +23,15 @@ use LogicException;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class Url extends Source
+class Url extends BaseSource
 {
     private const CONNECT_TIMEOUT = 5;
 
     private const RETURN_TRANSFER = 1;
 
     private const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0';
+
+    private string $lastUrl;
 
     /**
      * Adds the source to this object.
@@ -44,6 +47,8 @@ class Url extends Source
         curl_setopt($curlInit, CURLOPT_USERAGENT, self::USER_AGENT);
         curl_setopt($curlInit, CURLOPT_FOLLOWLOCATION, true);
         $response = curl_exec($curlInit);
+
+        $this->lastUrl = curl_getinfo($curlInit, CURLINFO_EFFECTIVE_URL);
         curl_close($curlInit);
 
         if (!is_string($response)) {
@@ -51,5 +56,15 @@ class Url extends Source
         }
 
         $this->source = $response;
+    }
+
+    /**
+     * Returns the url of the last query.
+     *
+     * @return string
+     */
+    public function getLastUrl(): string
+    {
+        return $this->lastUrl;
     }
 }

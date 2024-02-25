@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Source;
+namespace Ixnode\PhpWebCrawler\Source\Base;
 
 use DOMDocument;
 use DOMNode;
@@ -22,28 +22,32 @@ use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
+use Ixnode\PhpWebCrawler\Output\Base\BaseOutput;
+use Ixnode\PhpWebCrawler\Output\Base\Output;
 use Ixnode\PhpWebCrawler\Output\Field;
-use Ixnode\PhpWebCrawler\Output\Output;
-use Ixnode\PhpWebCrawler\Value\Value;
+use Ixnode\PhpWebCrawler\Value\Base\BaseValue;
+use Ixnode\PhpWebCrawler\Value\Base\Value;
 use JsonException;
 use LogicException;
 
 /**
- * Class Source
+ * Class BaseSource
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class Source
+abstract class BaseSource implements Source
 {
+    protected Source|null $initiator = null;
+
     protected string|null $source = null;
 
-    /** @var Output[]|Field[] $outputs */
+    /** @var BaseOutput[] $outputs */
     protected array $outputs = [];
 
-    /** @var Source[] $sources */
+    /** @var BaseSource[] $sources */
     protected array $sources = [];
 
     /**
@@ -55,22 +59,36 @@ abstract class Source
 
         foreach ($parameters as $parameter) {
             match (true) {
-                /* Main config. */
                 is_string($parameter) => $this->addSource($parameter),
-
-                /* add Output object. */
-                $parameter instanceof Output => $this->outputs[] = $parameter,
-
-                /* convert Value object to Output object. */
-                $parameter instanceof Value => $this->outputs[] = new Field($parameter),
-
-                /* Adds the source object. */
-                $parameter instanceof Source => $this->sources[] = $parameter,
-
-                /* Unknown parameter. */
+                $parameter instanceof BaseOutput => $this->outputs[] = $parameter,
+                $parameter instanceof BaseValue => $this->outputs[] = (new Field($parameter)),
+                $parameter instanceof BaseSource => $this->sources[] = $parameter,
                 default => throw new LogicException(sprintf('Parameter "%s" is not supported.', gettype($parameter))),
             };
         }
+
+        $this->setInitiator($this->initiator ?? $this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInitiator(): ?Source
+    {
+        return $this->initiator;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setInitiator(Source $initiator): self
+    {
+        $this->initiator = $initiator;
+
+        foreach ($this->outputs as $output) { $output->setInitiator($initiator); }
+        foreach ($this->sources as $source) { $source->setInitiator($initiator); }
+
+        return $this;
     }
 
     /**

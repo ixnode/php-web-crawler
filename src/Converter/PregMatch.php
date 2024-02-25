@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Converter;
 
-use LogicException;
+use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
 
 /**
  * Class PregMatch
@@ -22,7 +22,7 @@ use LogicException;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-readonly class PregMatch implements Converter
+class PregMatch extends BaseConverter
 {
     private const MATCH_DEFAULT = 0;
 
@@ -31,8 +31,8 @@ readonly class PregMatch implements Converter
      * @param int $match
      */
     public function __construct(
-        private string $pattern,
-        private int $match = self::MATCH_DEFAULT
+        private readonly string $pattern,
+        private readonly int $match = self::MATCH_DEFAULT
     )
     {
     }

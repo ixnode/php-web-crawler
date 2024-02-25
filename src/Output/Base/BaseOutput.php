@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Output;
+namespace Ixnode\PhpWebCrawler\Output\Base;
 
 use DOMNode;
 use DOMXPath;
@@ -21,31 +21,35 @@ use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
-use Ixnode\PhpWebCrawler\Converter\Converter;
-use Ixnode\PhpWebCrawler\Source\Source;
-use Ixnode\PhpWebCrawler\Value\Value;
+use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Base\Converter;
+use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
+use Ixnode\PhpWebCrawler\Source\Base\Source;
+use Ixnode\PhpWebCrawler\Value\Base\BaseValue;
 use JsonException;
 use LogicException;
 
 /**
- * Class Output
+ * Class BaseOutput
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class Output
+abstract class BaseOutput implements Output
 {
+    protected Source $initiator;
+
     protected string|null $value = null;
 
-    /** @var Value[] $values */
+    /** @var BaseValue[] $values */
     protected array $values = [];
 
-    /** @var Output[] $outputs */
+    /** @var BaseOutput[] $outputs */
     protected array $outputs = [];
 
-    /** @var Source[] $sources */
+    /** @var BaseSource[] $sources */
     protected array $sources = [];
 
     /** @var Converter[] $converters */
@@ -61,13 +65,36 @@ abstract class Output
         foreach ($parameters as $parameter) {
             match (true) {
                 is_string($parameter) => $this->value = $parameter,
-                $parameter instanceof Value => $this->values[] = $parameter,
-                $parameter instanceof Output => $this->outputs[] = $parameter,
-                $parameter instanceof Source => $this->sources[] = $parameter,
-                $parameter instanceof Converter => $this->converters[] = $parameter,
+                $parameter instanceof BaseConverter => $this->converters[] = $parameter,
+                $parameter instanceof BaseOutput => $this->outputs[] = $parameter,
+                $parameter instanceof BaseSource => $this->sources[] = $parameter,
+                $parameter instanceof BaseValue => $this->values[] = $parameter,
                 default => throw new LogicException(sprintf('Invalid parameter "%s"', gettype($parameter))),
             };
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInitiator(): Source
+    {
+        return $this->initiator;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setInitiator(Source $initiator): self
+    {
+        $this->initiator = $initiator;
+
+        foreach ($this->values as $value) { $value->setInitiator($initiator); }
+        foreach ($this->outputs as $output) { $output->setInitiator($initiator); }
+        foreach ($this->sources as $source) { $source->setInitiator($initiator); }
+        foreach ($this->converters as $converter) { $converter->setInitiator($initiator); }
+
+        return $this;
     }
 
     /**

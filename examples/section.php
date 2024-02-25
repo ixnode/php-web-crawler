@@ -15,14 +15,17 @@ require dirname(__DIR__).'/vendor/autoload.php';
 
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Output\Group;
-use Ixnode\PhpWebCrawler\Value\XpathTextNode;
 use Ixnode\PhpWebCrawler\Source\Url;
 use Ixnode\PhpWebCrawler\Source\XpathSection;
+use Ixnode\PhpWebCrawler\Value\LastUrl;
+use Ixnode\PhpWebCrawler\Value\XpathTextNode;
 
 $url = 'https://en.wikipedia.org/wiki/Pirates_of_the_Caribbean:_The_Curse_of_the_Black_Pearl';
 
 $html = new Url(
     $url,
+    new Field('title', new XpathTextNode('/html/body//*[@id="firstHeading"]')),
+    new Field('last-url', new LastUrl()),
     new XpathSection(
         '/html/body//*[@id="mw-content-text"]/div[1]/table',
         new Group(

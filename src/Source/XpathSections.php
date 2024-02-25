@@ -13,15 +13,16 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Source;
 
+use DOMNode;
 use DOMNodeList;
 use DOMXPath;
-use DOMNode;
 use Ixnode\PhpContainer\Json;
 use Ixnode\PhpException\File\FileNotFoundException;
 use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
+use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use JsonException;
 use LogicException;
 
@@ -32,7 +33,7 @@ use LogicException;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class XpathSections extends Source
+class XpathSections extends BaseSource
 {
     /**
      * Adds the source to this object.

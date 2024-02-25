@@ -16,17 +16,26 @@ namespace Ixnode\PhpWebCrawler\Value;
 use DOMNode;
 use DOMXPath;
 use Ixnode\PhpContainer\Json;
+use Ixnode\PhpWebCrawler\Source\Url;
 use Ixnode\PhpWebCrawler\Value\Base\BaseValue;
 
 /**
- * Class Text
+ * Class LastUrl
  *
  * @author Björn Hempel <bjoern@hempel.li>
- * @version 0.1.0 (2024-02-24)
- * @since 0.1.0 (2024-02-24) First version.
+ * @version 0.1.0 (2024-02-25)
+ * @since 0.1.0 (2024-02-25) First version.
  */
-class Text extends BaseValue
+class LastUrl extends BaseValue
 {
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(null);
+    }
+
     /**
      * Parses the given xpath.
      *
@@ -34,6 +43,10 @@ class Text extends BaseValue
      */
     public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|null
     {
-        return $this->applyChildren($this->value);
+        if (!$this->initiator instanceof Url) {
+            return null;
+        }
+
+        return $this->initiator->getLastUrl();
     }
 }

@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Output;
 
-use DOMXPath;
 use DOMNode;
+use DOMXPath;
 use Ixnode\PhpContainer\Json;
+use Ixnode\PhpWebCrawler\Output\Base\BaseOutput;
 
 /**
  * Class Field
@@ -24,7 +25,7 @@ use Ixnode\PhpContainer\Json;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class Field extends Output
+class Field extends BaseOutput
 {
     /**
      * Parses the given xpath.

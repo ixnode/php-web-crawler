@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Converter;
 
+use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
 use LogicException;
 
 /**
@@ -22,15 +23,15 @@ use LogicException;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-readonly class PregReplace implements Converter
+class PregReplace extends BaseConverter
 {
     /**
      * @param string $pattern
      * @param string $replacement
      */
     public function __construct(
-        private string $pattern,
-        private string $replacement = ''
+        private readonly string $pattern,
+        private readonly string $replacement = ''
     )
     {
     }
