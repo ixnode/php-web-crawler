@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.16] - 2024-02-25
+
+* Add collection converter First
+
 ### [0.1.15] - 2024-02-25
 
 * Add collection converter RemoveEmpty
