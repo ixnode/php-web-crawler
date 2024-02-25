@@ -50,7 +50,7 @@ class XpathTextNodes extends BaseValue
      */
     public function parse(DOMXPath $xpath, DOMNode $node = null): Json
     {
-        $domNodeList = $xpath->query($this->value, $node);
+        $domNodeList = $xpath->query((string) $this->value, $node);
 
         if (!$domNodeList instanceof DOMNodeList) {
             throw new LogicException('Unexpected result from xpath query');

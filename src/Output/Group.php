@@ -79,7 +79,7 @@ class Group extends BaseOutput
      *
      * @inheritdoc
      */
-    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|null
+    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|float|bool|null
     {
         return $this->getStructuredData($this->doParse($xpath, $node));
     }

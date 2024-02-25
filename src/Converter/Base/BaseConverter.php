@@ -47,8 +47,8 @@ abstract class BaseConverter implements Converter
     /**
      * Returns the converted value.
      *
-     * @param string|int|null $value
-     * @return string|int|null
+     * @param bool|float|int|string|null $value
+     * @return bool|float|int|string|null
      */
-    abstract public function getValue(string|int|null $value): string|int|null;
+    abstract public function getValue(bool|float|int|string|null $value): bool|float|int|string|null;
 }

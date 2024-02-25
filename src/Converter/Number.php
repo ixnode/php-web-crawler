@@ -29,17 +29,15 @@ class Number extends BaseConverter
      *
      * @inheritdoc
      */
-    public function getValue(string|int|null $value): string|int|null
+    public function getValue(bool|float|int|string|null $value): float|int|null
     {
-        if (is_null($value)) {
-            return null;
-        }
-
-        if (is_int($value)) {
-            return $value;
-        }
-
-        return (int) str_replace(',', '', $value);
+        return match (true) {
+            is_null($value) => null,
+            is_int($value),
+            is_float($value) => $value,
+            is_bool($value) => $value ? 1 : 0,
+            default => (int) str_replace(',', '', $value),
+        };
     }
 }
 

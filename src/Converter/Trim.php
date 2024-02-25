@@ -29,7 +29,7 @@ class Trim extends BaseConverter
      *
      * @inheritdoc
      */
-    public function getValue(string|int|null $value): string
+    public function getValue(bool|float|int|string|null $value): string
     {
         return trim((string) $value);
     }

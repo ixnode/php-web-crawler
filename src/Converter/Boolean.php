@@ -16,33 +16,22 @@ namespace Ixnode\PhpWebCrawler\Converter;
 use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
 
 /**
- * Class Sprintf
+ * Class Boolean
  *
  * @author Björn Hempel <bjoern@hempel.li>
- * @version 0.1.0 (2024-02-24)
- * @since 0.1.0 (2024-02-24) First version.
+ * @version 0.1.0 (2024-02-25)
+ * @since 0.1.0 (2024-02-25) First version.
  */
-class Sprintf extends BaseConverter
+class Boolean extends BaseConverter
 {
-    private const WRAPPER_DEFAULT = '%s';
-
-    /**
-     * @param string $wrapper
-     */
-    public function __construct(
-        private readonly string $wrapper = self::WRAPPER_DEFAULT
-    )
-    {
-    }
-
     /**
      * Returns the converted value.
      *
      * @inheritdoc
      */
-    public function getValue(bool|float|int|string|null $value): string
+    public function getValue(bool|float|int|string|null $value): bool
     {
-        return sprintf($this->wrapper, $value);
+        return !empty($value);
     }
 }
 

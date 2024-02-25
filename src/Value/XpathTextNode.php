@@ -34,16 +34,16 @@ class XpathTextNode extends BaseValue
      *
      * @inheritdoc
      */
-    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|null
+    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|float|bool|null
     {
-        $domNodeList = $xpath->query($this->value, $node);
+        $domNodeList = $xpath->query((string) $this->value, $node);
 
         if (!$domNodeList instanceof DOMNodeList) {
             throw new LogicException('Unexpected result from xpath query');
         }
 
         if ($domNodeList->length === 0) {
-            return null;
+            return $this->applyChildren(null);
         }
 
         if ($domNodeList->length === 1) {

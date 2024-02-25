@@ -32,7 +32,7 @@ class Field extends BaseOutput
      *
      * @inheritdoc
      */
-    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|null
+    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|float|bool|null
     {
         if (count($this->values) === 0) {
             return $this->getStructuredData(null);

@@ -110,8 +110,8 @@ abstract class BaseOutput implements Output
     /**
      * Returns the structured data.
      *
-     * @param Json|string|int|null $data
-     * @return Json|string|int|null
+     * @param Json|string|int|float|bool|null $data
+     * @return Json|string|int|float|bool|null
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      * @throws FunctionJsonEncodeException
@@ -119,7 +119,7 @@ abstract class BaseOutput implements Output
      * @throws JsonException
      * @throws TypeInvalidException
      */
-    protected function getStructuredData(Json|string|int|null $data): Json|string|int|null
+    protected function getStructuredData(Json|string|int|float|bool|null $data): Json|string|int|float|bool|null
     {
         if (is_null($this->value)) {
             return $data;
@@ -138,7 +138,7 @@ abstract class BaseOutput implements Output
      *
      * @param DOMXPath $xpath
      * @param DOMNode|null $node
-     * @return Json|string|int|null
+     * @return Json|string|int|float|bool|null
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      * @throws FunctionJsonEncodeException
@@ -146,5 +146,5 @@ abstract class BaseOutput implements Output
      * @throws JsonException
      * @throws TypeInvalidException
      */
-    abstract public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|null;
+    abstract public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|float|bool|null;
 }

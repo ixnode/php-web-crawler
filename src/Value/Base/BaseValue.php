@@ -40,7 +40,7 @@ abstract class BaseValue implements Value
 {
     protected Source $initiator;
 
-    protected string $value;
+    protected string|int|float|bool|null $value = null;
 
     /** @var BaseValue[] $values */
     protected array $values = [];
@@ -63,8 +63,11 @@ abstract class BaseValue implements Value
 
         foreach ($parameters as $parameter) {
             match (true) {
-                is_null($parameter) => $this->value = '',
-                is_string($parameter) => $this->value = $parameter,
+                is_string($parameter),
+                is_int($parameter),
+                is_float($parameter),
+                is_bool($parameter),
+                is_null($parameter) => $this->value = $parameter,
                 $parameter instanceof BaseValue => $this->values[] = $parameter,
                 $parameter instanceof BaseOutput => $this->outputs[] = $parameter,
                 $parameter instanceof BaseConverter => $this->converters[] = $parameter,
@@ -72,10 +75,14 @@ abstract class BaseValue implements Value
                 default => throw new LogicException(sprintf('Parameter "%s" is not supported.', gettype($parameter)))
             };
         }
+    }
 
-        if (!isset($this->value)) {
-            throw new LogicException('$this->value is required.');
-        }
+    /**
+     * @return string|int|float|bool|null
+     */
+    public function getValue(): string|int|float|bool|null
+    {
+        return $this->value;
     }
 
     /**
@@ -102,8 +109,8 @@ abstract class BaseValue implements Value
     }
 
     /**
-     * @param string $value
-     * @return Json|string|int|null
+     * @param string|int|float|bool|null $value
+     * @return Json|string|int|float|bool|null
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      * @throws FunctionJsonEncodeException
@@ -111,7 +118,7 @@ abstract class BaseValue implements Value
      * @throws JsonException
      * @throws TypeInvalidException
      */
-    protected function applyChildren(string $value): Json|string|int|null
+    protected function applyChildren(string|int|float|bool|null $value): Json|string|int|float|bool|null
     {
         /* Apply all filters to value. */
         foreach ($this->converters as $converter) {
@@ -138,7 +145,7 @@ abstract class BaseValue implements Value
      *
      * @param DOMXPath $xpath
      * @param DOMNode|null $node
-     * @return Json|string|int|null
+     * @return Json|string|int|float|bool|null
      * @throws FileNotFoundException
      * @throws FileNotReadableException
      * @throws FunctionJsonEncodeException
@@ -146,5 +153,5 @@ abstract class BaseValue implements Value
      * @throws JsonException
      * @throws TypeInvalidException
      */
-    abstract public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|null;
+    abstract public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|float|bool|null;
 }

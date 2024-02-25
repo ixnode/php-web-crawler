@@ -42,7 +42,7 @@ class PregMatch extends BaseConverter
      *
      * @inheritdoc
      */
-    public function getValue(string|int|null $value): string|null
+    public function getValue(bool|float|int|string|null $value): string|null
     {
         $matches = [];
         if (!preg_match($this->pattern, (string) $value, $matches)) {

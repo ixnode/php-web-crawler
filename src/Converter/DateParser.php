@@ -42,7 +42,7 @@ class DateParser extends BaseConverter
      *
      * @inheritdoc
      */
-    public function getValue(string|int|null $value): string|int
+    public function getValue(bool|float|int|string|null $value): string|int
     {
         $value = sprintf($this->wrapper, $value);
 

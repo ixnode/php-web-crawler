@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
+use Ixnode\PhpWebCrawler\Converter\Boolean;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Source\File;
 use Ixnode\PhpWebCrawler\Value\Text;
@@ -24,7 +25,8 @@ $html = new File(
     $file,
     new Field('version', new Text('1.0.0')),
     new Field('title', new XpathTextNode('//h1')),
-    new Field('paragraph', new XpathTextNode('//p'))
+    new Field('paragraph', new XpathTextNode('//p')),
+    new Field('paragraph-exists', new XpathTextNode('//p', new Boolean()))
 );
 
 try {

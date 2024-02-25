@@ -41,7 +41,7 @@ class PregReplace extends BaseConverter
      *
      * @inheritdoc
      */
-    public function getValue(string|int|null $value): string
+    public function getValue(bool|float|int|string|null $value): string
     {
         $replaced = preg_replace($this->pattern, $this->replacement, (string) $value);
 

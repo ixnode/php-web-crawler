@@ -29,24 +29,16 @@ use Ixnode\PhpWebCrawler\Value\Base\BaseValue;
 class LastUrl extends BaseValue
 {
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct(null);
-    }
-
-    /**
      * Parses the given xpath.
      *
      * @inheritdoc
      */
-    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|null
+    public function parse(DOMXPath $xpath, DOMNode $node = null): Json|string|int|float|bool|null
     {
         if (!$this->initiator instanceof Url) {
             return null;
         }
 
-        return $this->initiator->getLastUrl();
+        return $this->applyChildren($this->initiator->getLastUrl());
     }
 }
