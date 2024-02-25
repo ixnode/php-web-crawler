@@ -17,13 +17,13 @@ use Ixnode\PhpContainer\Json;
 use Ixnode\PhpWebCrawler\Converter\Collection\Base\BaseConverterArray;
 
 /**
- * Class RemoveEmpty
+ * Class First
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2024-02-25)
  * @since 0.1.0 (2024-02-25) First version.
  */
-class RemoveEmpty extends BaseConverterArray
+class First extends BaseConverterArray
 {
     private const ZERO_RESULT = 0;
 
@@ -39,12 +39,16 @@ class RemoveEmpty extends BaseConverterArray
         }
 
         if (count($value) <= self::ZERO_RESULT) {
-            return $value;
+            return null;
         }
 
-        $value = array_filter($value, fn(Json|bool|float|int|string|null $item) => !empty($item) || $item === '0');
+        $firstElement = $value[0];
 
-        return array_values($value);
+        /* @phpstan-ignore-next-line */
+        return match (true) {
+            $firstElement instanceof Json => array_values($firstElement->getArray()),
+            default => $firstElement,
+        };
     }
 }
 
