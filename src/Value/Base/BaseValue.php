@@ -22,6 +22,7 @@ use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
 use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Base\BaseConverterArray;
 use Ixnode\PhpWebCrawler\Output\Base\BaseOutput;
 use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use Ixnode\PhpWebCrawler\Source\Base\Source;
@@ -51,6 +52,9 @@ abstract class BaseValue implements Value
     /** @var BaseConverter[] $converters */
     protected array $converters = [];
 
+    /** @var BaseConverterArray[] $arrayConverters */
+    protected array $arrayConverters = [];
+
     /** @var BaseSource[] $sources */
     protected array $sources = [];
 
@@ -71,6 +75,7 @@ abstract class BaseValue implements Value
                 $parameter instanceof BaseValue => $this->values[] = $parameter,
                 $parameter instanceof BaseOutput => $this->outputs[] = $parameter,
                 $parameter instanceof BaseConverter => $this->converters[] = $parameter,
+                $parameter instanceof BaseConverterArray => $this->arrayConverters[] = $parameter,
                 $parameter instanceof BaseSource => $this->sources[] = $parameter,
                 default => throw new LogicException(sprintf('Parameter "%s" is not supported.', gettype($parameter)))
             };
@@ -104,6 +109,7 @@ abstract class BaseValue implements Value
         foreach ($this->outputs as $output) { $output->setInitiator($initiator); }
         foreach ($this->sources as $source) { $source->setInitiator($initiator); }
         foreach ($this->converters as $converter) { $converter->setInitiator($initiator); }
+        foreach ($this->arrayConverters as $arrayConverter) { $arrayConverter->setInitiator($initiator); }
 
         return $this;
     }
@@ -138,6 +144,30 @@ abstract class BaseValue implements Value
         }
 
         return new Json($data);
+    }
+
+    /**
+     * @param array<int, Json|string|int|float|bool|null>|bool|float|int|string|null $value
+     * @return Json|bool|float|int|string|null
+     * @throws FileNotFoundException
+     * @throws FileNotReadableException
+     * @throws FunctionJsonEncodeException
+     * @throws FunctionReplaceException
+     * @throws JsonException
+     * @throws TypeInvalidException
+     */
+    protected function applyChildrenArray(array|bool|float|int|string|null $value): Json|string|int|float|bool|null
+    {
+        /* Apply all filters to value. */
+        foreach ($this->arrayConverters as $arrayConverter) {
+            $value = $arrayConverter->getValue($value);
+        }
+
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        return new Json($value);
     }
 
     /**

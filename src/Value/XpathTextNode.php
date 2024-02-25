@@ -62,6 +62,6 @@ class XpathTextNode extends BaseValue
             $data[] = $this->applyChildren($domNode->textContent);
         }
 
-        return new Json($data);
+        return $this->applyChildrenArray($data);
     }
 }
