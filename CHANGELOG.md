@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.13] - 2024-02-25
+
+* Add ToLower and ToUpper functions
+
 ### [0.1.12] - 2024-02-25
 
 * Add search and replace parameter to Number converter
