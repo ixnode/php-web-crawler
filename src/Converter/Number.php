@@ -25,6 +25,17 @@ use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
 class Number extends BaseConverter
 {
     /**
+     * @param string|string[]|null $search
+     * @param string|string[] $replace
+     */
+    public function __construct(
+        private readonly string|array|null $search = null,
+        private readonly string|array $replace = '',
+    )
+    {
+    }
+
+    /**
      * Returns the converted value.
      *
      * @inheritdoc
@@ -36,7 +47,7 @@ class Number extends BaseConverter
             is_int($value),
             is_float($value) => $value,
             is_bool($value) => $value ? 1 : 0,
-            default => (int) str_replace(',', '', $value),
+            default => (int) (!is_null($this->search) ? str_replace($this->search, $this->replace, $value) : $value),
         };
     }
 }
