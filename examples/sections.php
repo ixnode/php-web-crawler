@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-use Ixnode\PhpWebCrawler\Converter\Sprintf;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Sprintf;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Output\Group;
 use Ixnode\PhpWebCrawler\Source\Url;

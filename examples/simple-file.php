@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-use Ixnode\PhpWebCrawler\Converter\Boolean;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Boolean;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Source\File;
 use Ixnode\PhpWebCrawler\Value\Text;

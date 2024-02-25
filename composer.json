@@ -51,7 +51,7 @@
       "@phpmnd:all"
     ],
 
-    "phpmd": "bin/header/phpmnd 'phpmd src,tests text cleancode,codesize,controversial,design,naming,unusedcode' 'all'",
+    "phpmd": "bin/header/phpmd 'phpmd src,tests text cleancode,codesize,controversial,design,naming,unusedcode' 'all'",
 
     "phpunit": "bin/header/phpunit 'phpunit --stop-on-failure tests' 'Unit'",
 

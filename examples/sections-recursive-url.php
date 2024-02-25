@@ -13,15 +13,13 @@ declare(strict_types=1);
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-use Ixnode\PhpWebCrawler\Converter\DateParser;
-use Ixnode\PhpWebCrawler\Converter\Sprintf;
-use Ixnode\PhpWebCrawler\Converter\Trim;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Sprintf;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Output\Group;
 use Ixnode\PhpWebCrawler\Source\Url;
 use Ixnode\PhpWebCrawler\Source\XpathSection;
-use Ixnode\PhpWebCrawler\Value\XpathTextNode;
 use Ixnode\PhpWebCrawler\Source\XpathSections;
+use Ixnode\PhpWebCrawler\Value\XpathTextNode;
 
 $domain = 'https://en.wikipedia.org';
 $url = $domain.'/w/index.php?profile=advanced&search=Pirates+of+the+Caribbean+movie&title=Special:Search&ns0=1';

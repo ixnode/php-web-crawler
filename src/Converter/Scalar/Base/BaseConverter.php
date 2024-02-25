@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Converter\Base;
+namespace Ixnode\PhpWebCrawler\Converter\Scalar\Base;
 
 use Ixnode\PhpWebCrawler\Source\Base\Source;
 

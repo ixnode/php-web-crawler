@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Converter;
+namespace Ixnode\PhpWebCrawler\Converter\Scalar;
 
-use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
 use LogicException;
 
 /**

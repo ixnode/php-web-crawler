@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
+use Ixnode\PhpWebCrawler\Converter\Collection\Implode;
+use Ixnode\PhpWebCrawler\Converter\Collection\RemoveEmpty;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Source\Raw;
 use Ixnode\PhpWebCrawler\Value\Text;
@@ -25,7 +27,9 @@ $rawHtml = <<<HTML
     </head>
     <body>
         <h1>Test Title</h1>
-        <p>Test Paragraph</p>
+        <p>Test Paragraph 1</p>
+        <p></p>
+        <p>Test Paragraph 2</p>
     </body>
 </html>
 HTML;
@@ -34,7 +38,7 @@ $html = new Raw(
     $rawHtml,
     new Field('version', new Text('1.0.0')),
     new Field('title', new XpathTextNode('//h1')),
-    new Field('paragraph', new XpathTextNode('//p'))
+    new Field('paragraph', new XpathTextNode('//p', new RemoveEmpty(), new Implode()))
 );
 
 try {

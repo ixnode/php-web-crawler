@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-use Ixnode\PhpWebCrawler\Converter\DateParser;
-use Ixnode\PhpWebCrawler\Converter\PregReplace;
-use Ixnode\PhpWebCrawler\Converter\Trim;
+use Ixnode\PhpWebCrawler\Converter\Scalar\DateParser;
+use Ixnode\PhpWebCrawler\Converter\Scalar\PregReplace;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Trim;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Source\File;
 use Ixnode\PhpWebCrawler\Value\Text;

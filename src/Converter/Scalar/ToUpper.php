@@ -11,18 +11,18 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Converter;
+namespace Ixnode\PhpWebCrawler\Converter\Scalar;
 
-use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
 
 /**
- * Class ToLower
+ * Class ToUpper
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2024-02-25)
  * @since 0.1.0 (2024-02-25) First version.
  */
-class ToLower extends BaseConverter
+class ToUpper extends BaseConverter
 {
     /**
      * Returns the converted value.
@@ -35,7 +35,7 @@ class ToLower extends BaseConverter
             return null;
         }
 
-        return strtolower((string) $value);
+        return strtoupper((string) $value);
     }
 }
 

@@ -11,31 +11,28 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Converter;
+namespace Ixnode\PhpWebCrawler\Converter\Scalar\Base;
 
-use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Source\Base\Source;
 
 /**
- * Class Trim
+ * Interface Converter
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class Trim extends BaseConverter
+interface Converter
 {
     /**
-     * Returns the converted value.
-     *
-     * @inheritdoc
+     * @return Source
      */
-    public function getValue(bool|float|int|string|null $value): string|null
-    {
-        if (is_null($value)) {
-            return null;
-        }
+    public function getInitiator(): Source;
 
-        return trim((string) $value);
-    }
+    /**
+     * @param Source $initiator
+     * @return self
+     */
+    public function setInitiator(Source $initiator): self;
 }
 

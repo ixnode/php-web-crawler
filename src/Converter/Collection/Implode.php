@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Ixnode\PhpWebCrawler\Converter;
+namespace Ixnode\PhpWebCrawler\Converter\Collection;
 
 use Ixnode\PhpContainer\Json;
-use Ixnode\PhpWebCrawler\Converter\Base\BaseConverterArray;
+use Ixnode\PhpWebCrawler\Converter\Collection\Base\BaseConverterArray;
 
 /**
  * Class Implode
