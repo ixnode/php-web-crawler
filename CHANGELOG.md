@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.10] - 2024-02-25
+
+* Fix Trim converter
+  * Return null if null was given
+
 ### [0.1.9] - 2024-02-24
 
 * Add Boolean converter
