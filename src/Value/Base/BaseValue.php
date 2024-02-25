@@ -22,14 +22,11 @@ use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
 use Ixnode\PhpWebCrawler\Converter\Base\BaseConverter;
-use Ixnode\PhpWebCrawler\Converter\Base\Converter;
 use Ixnode\PhpWebCrawler\Output\Base\BaseOutput;
-use Ixnode\PhpWebCrawler\Output\Base\Output;
 use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use Ixnode\PhpWebCrawler\Source\Base\Source;
 use JsonException;
 use LogicException;
-use Stringable;
 
 /**
  * Class BaseValue
@@ -39,7 +36,7 @@ use Stringable;
  * @since 0.1.0 (2024-02-24) First version.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class BaseValue implements Value, Stringable
+abstract class BaseValue implements Value
 {
     protected Source $initiator;
 
@@ -102,16 +99,6 @@ abstract class BaseValue implements Value, Stringable
         foreach ($this->converters as $converter) { $converter->setInitiator($initiator); }
 
         return $this;
-    }
-
-    /**
-     * To string method.
-     *
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->value;
     }
 
     /**
