@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.15] - 2024-02-25
+
+* Add collection converter RemoveEmpty
+* Converter refactoring: Scalar, Collection
+
 ### [0.1.14] - 2024-02-25
 
 * Add first array converter Implode
