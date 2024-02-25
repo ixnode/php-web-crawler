@@ -26,6 +26,8 @@ class PregMatch extends BaseConverter
 {
     private const MATCH_DEFAULT = 0;
 
+    private const ZERO_RESULT = 0;
+
     /**
      * @param string $pattern
      * @param int $match
@@ -45,7 +47,7 @@ class PregMatch extends BaseConverter
     public function getValue(bool|float|int|string|null $value): string|null
     {
         $matches = [];
-        if (!preg_match($this->pattern, (string) $value, $matches)) {
+        if (!preg_match_all($this->pattern, (string) $value, $matches)) {
             return null;
         }
 
@@ -53,7 +55,17 @@ class PregMatch extends BaseConverter
             return null;
         }
 
-        $text = $matches[$this->match];
+        $matches = $matches[$this->match];
+
+        if (is_string($matches)) {
+            return $matches;
+        }
+
+        if (!is_array($matches) || count($matches) <= self::ZERO_RESULT) {
+            return null;
+        }
+
+        $text = $matches[count($matches) - 1];
 
         if (!is_string($text)) {
             return null;
