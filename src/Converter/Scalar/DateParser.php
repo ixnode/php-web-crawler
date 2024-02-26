@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Converter\Scalar;
 
-use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverterScalar;
 use LogicException;
 
 /**
@@ -23,7 +23,7 @@ use LogicException;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class DateParser extends BaseConverter
+class DateParser extends BaseConverterScalar
 {
     private const WRAPPER_DEFAULT = '%s';
 

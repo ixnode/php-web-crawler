@@ -22,7 +22,7 @@ use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
 use Ixnode\PhpWebCrawler\Converter\Collection\Base\BaseConverterArray;
-use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverterScalar;
 use Ixnode\PhpWebCrawler\Output\Base\BaseOutput;
 use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use Ixnode\PhpWebCrawler\Source\Base\Source;
@@ -36,6 +36,7 @@ use LogicException;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 abstract class BaseValue implements Value
 {
@@ -49,14 +50,19 @@ abstract class BaseValue implements Value
     /** @var BaseOutput[] $outputs */
     protected array $outputs = [];
 
-    /** @var BaseConverter[] $converters */
-    protected array $converters = [];
+    /** @var BaseConverterScalar[] $scalarConverters */
+    protected array $scalarConverters = [];
+
+    /** @var BaseConverterScalar[] $scalarAfterArrayConverters */
+    protected array $scalarAfterArrayConverters = [];
 
     /** @var BaseConverterArray[] $arrayConverters */
     protected array $arrayConverters = [];
 
     /** @var BaseSource[] $sources */
     protected array $sources = [];
+
+    private const ZERO_NUMBER = 0;
 
     /**
      * Constructor.
@@ -67,16 +73,26 @@ abstract class BaseValue implements Value
 
         foreach ($parameters as $parameter) {
             match (true) {
+                /* Scalar values. */
                 is_string($parameter),
                 is_int($parameter),
                 is_float($parameter),
                 is_bool($parameter),
                 is_null($parameter) => $this->value = $parameter,
+
                 $parameter instanceof BaseValue => $this->values[] = $parameter,
+
                 $parameter instanceof BaseOutput => $this->outputs[] = $parameter,
-                $parameter instanceof BaseConverter => $this->converters[] = $parameter,
+
+                $parameter instanceof BaseConverterScalar && count($this->arrayConverters) <= self::ZERO_NUMBER =>
+                    $this->scalarConverters[] = $parameter,
+                $parameter instanceof BaseConverterScalar =>
+                    $this->scalarAfterArrayConverters[] = $parameter,
+
                 $parameter instanceof BaseConverterArray => $this->arrayConverters[] = $parameter,
+
                 $parameter instanceof BaseSource => $this->sources[] = $parameter,
+
                 default => throw new LogicException(sprintf('Parameter "%s" is not supported.', gettype($parameter)))
             };
         }
@@ -108,7 +124,8 @@ abstract class BaseValue implements Value
         foreach ($this->values as $value) { $value->setInitiator($initiator); }
         foreach ($this->outputs as $output) { $output->setInitiator($initiator); }
         foreach ($this->sources as $source) { $source->setInitiator($initiator); }
-        foreach ($this->converters as $converter) { $converter->setInitiator($initiator); }
+        foreach ($this->scalarConverters as $scalarConverter) { $scalarConverter->setInitiator($initiator); }
+        foreach ($this->scalarAfterArrayConverters as $scalarAfterArrayConverter) { $scalarAfterArrayConverter->setInitiator($initiator); }
         foreach ($this->arrayConverters as $arrayConverter) { $arrayConverter->setInitiator($initiator); }
 
         return $this;
@@ -127,7 +144,7 @@ abstract class BaseValue implements Value
     protected function applyChildren(string|int|float|bool|null $value): Json|string|int|float|bool|null
     {
         /* Apply all filters to value. */
-        foreach ($this->converters as $converter) {
+        foreach ($this->scalarConverters as $converter) {
             $value = $converter->getValue($value);
         }
 
@@ -164,6 +181,10 @@ abstract class BaseValue implements Value
         }
 
         if (!is_array($value)) {
+            foreach ($this->scalarAfterArrayConverters as $scalarAfterArrayConverter) {
+                $value = $scalarAfterArrayConverter->getValue($value);
+            }
+
             return $value;
         }
 

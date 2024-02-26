@@ -22,7 +22,7 @@ use Ixnode\PhpWebCrawler\Source\Base\Source;
  * @version 0.1.0 (2024-02-25)
  * @since 0.1.0 (2024-02-25) First version.
  */
-abstract class BaseConverter implements Converter
+abstract class BaseConverterScalar implements Converter
 {
     protected Source $initiator;
 

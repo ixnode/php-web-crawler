@@ -21,7 +21,7 @@ use Ixnode\PhpException\File\FileNotReadableException;
 use Ixnode\PhpException\Function\FunctionJsonEncodeException;
 use Ixnode\PhpException\Type\TypeInvalidException;
 use Ixnode\PhpNamingConventions\Exception\FunctionReplaceException;
-use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverterScalar;
 use Ixnode\PhpWebCrawler\Converter\Scalar\Base\Converter;
 use Ixnode\PhpWebCrawler\Source\Base\BaseSource;
 use Ixnode\PhpWebCrawler\Source\Base\Source;
@@ -65,7 +65,7 @@ abstract class BaseOutput implements Output
         foreach ($parameters as $parameter) {
             match (true) {
                 is_string($parameter) => $this->value = $parameter,
-                $parameter instanceof BaseConverter => $this->converters[] = $parameter,
+                $parameter instanceof BaseConverterScalar => $this->converters[] = $parameter,
                 $parameter instanceof BaseOutput => $this->outputs[] = $parameter,
                 $parameter instanceof BaseSource => $this->sources[] = $parameter,
                 $parameter instanceof BaseValue => $this->values[] = $parameter,

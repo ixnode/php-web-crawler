@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Converter\Scalar;
 
-use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverterScalar;
 
 /**
  * Class Trim
@@ -22,7 +22,7 @@ use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
  * @version 0.1.0 (2024-02-24)
  * @since 0.1.0 (2024-02-24) First version.
  */
-class Trim extends BaseConverter
+class Trim extends BaseConverterScalar
 {
     /**
      * Returns the converted value.

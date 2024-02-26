@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Ixnode\PhpWebCrawler\Converter\Scalar;
 
-use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverterScalar;
 
 /**
  * Class ToLower
@@ -22,7 +22,7 @@ use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverter;
  * @version 0.1.0 (2024-02-25)
  * @since 0.1.0 (2024-02-25) First version.
  */
-class ToLower extends BaseConverter
+class ToLower extends BaseConverterScalar
 {
     /**
      * Returns the converted value.
