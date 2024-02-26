@@ -14,7 +14,10 @@ declare(strict_types=1);
 require dirname(__DIR__).'/vendor/autoload.php';
 
 use Ixnode\PhpWebCrawler\Converter\Collection\Chunk;
+use Ixnode\PhpWebCrawler\Converter\Scalar\Combine;
 use Ixnode\PhpWebCrawler\Converter\Scalar\Number;
+use Ixnode\PhpWebCrawler\Converter\Scalar\PregReplace;
+use Ixnode\PhpWebCrawler\Converter\Scalar\ToLower;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Source\Raw;
 use Ixnode\PhpWebCrawler\Value\Text;
@@ -30,7 +33,7 @@ $rawHtml = <<<HTML
         
         <p>18L/36R</p>
         <p>8,677</p>
-        <p>Asphalt/Concrete</p>
+        <p>Asphalt / Concrete</p>
         
         <p>18C/36C</p>
         <p>10,000</p>
@@ -51,8 +54,11 @@ $html = new Raw(
         chunkSize: 3,
         separator: ', ',
         arrayKeys: ['direction', 'length', 'surface'],
-        scalarConverters: [null, new Number([',', '.'], ''), null])
-    ))
+        scalarConverters: [null, new Number([',', '.'], ''), new Combine(
+            new ToLower(),
+            new PregReplace('~[ ]*[/,]+[ ]*~', '/'),
+        )]
+    )))
 );
 
 try {
