@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
-use Ixnode\PhpWebCrawler\Converter\Collection\Concat;
+use Ixnode\PhpWebCrawler\Converter\Collection\Chunk;
 use Ixnode\PhpWebCrawler\Converter\Scalar\Number;
 use Ixnode\PhpWebCrawler\Output\Field;
 use Ixnode\PhpWebCrawler\Source\Raw;
@@ -47,7 +47,12 @@ $html = new Raw(
     $rawHtml,
     new Field('version', new Text('1.0.0')),
     new Field('title', new XpathTextNode('//h1')),
-    new Field('runways', new XpathTextNode('//p', new Concat(3, ', ', [null, new Number([',', '.'], ''), null])))
+    new Field('runways', new XpathTextNode('//p', new Chunk(
+        chunkSize: 3,
+        separator: ', ',
+        arrayKeys: ['direction', 'length', 'surface'],
+        scalarConverters: [null, new Number([',', '.'], ''), null])
+    ))
 );
 
 try {

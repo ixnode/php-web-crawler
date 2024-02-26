@@ -17,28 +17,24 @@ use Ixnode\PhpWebCrawler\Converter\Collection\Base\BaseConcat;
 use Ixnode\PhpWebCrawler\Converter\Scalar\Base\BaseConverterScalar;
 
 /**
- * Class Concat
+ * Class Chunk
  *
  * @author Björn Hempel <bjoern@hempel.li>
  * @version 0.1.0 (2024-02-26)
  * @since 0.1.0 (2024-02-26) First version.
  */
-class Concat extends BaseConcat
+class Chunk extends BaseConcat
 {
-    protected const NUMBER_CHUNK_SIZE = 1;
-
-    protected const SEPARATOR = ', ';
-
-    protected const ZERO_RESULT = 0;
-
     /**
      * @param int|null $chunkSize
      * @param string $separator
+     * @param array<int, string>|null $arrayKeys
      * @param array<int, BaseConverterScalar|null> $scalarConverters
      */
     public function __construct(
         int|null $chunkSize = self::NUMBER_CHUNK_SIZE,
         string $separator = self::SEPARATOR,
+        private readonly array|null $arrayKeys = null,
         array $scalarConverters = []
     )
     {
@@ -48,16 +44,13 @@ class Concat extends BaseConcat
     /**
      * Chunk and join the given array.
      *
-     * @inheritdoc
+     * @param array<int, bool|float|int|string|null> $array
+     * @param int|null $chunkSize
+     * @param string $separator
+     * @return array<int, array<int, bool|float|int|string|null>>|string
      */
     protected function chunkAndJoinArray(array $array, int|null $chunkSize, string $separator): array|string
     {
-        foreach ($array as &$value) {
-            if (is_null($value)) {
-                $value = '<null>';
-            }
-        }
-
         if (is_null($chunkSize) || $chunkSize <= self::ZERO_RESULT) {
             return implode($separator, $array);
         }
@@ -74,7 +67,15 @@ class Concat extends BaseConcat
             }
         }
 
-        return array_map(fn($chunk) => join($separator, $chunk), $chunks);
+        if (is_null($this->arrayKeys)) {
+            return $chunks;
+        }
+
+        foreach ($chunks as &$chunk) {
+            $chunk = array_combine($this->arrayKeys, $chunk);
+        }
+
+        return $chunks;
     }
 }
 
