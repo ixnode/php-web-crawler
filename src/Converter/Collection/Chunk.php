@@ -48,6 +48,7 @@ class Chunk extends BaseConcat
      * @param int|null $chunkSize
      * @param string $separator
      * @return array<int, array<int, bool|float|int|string|null>>|string
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function chunkAndJoinArray(array $array, int|null $chunkSize, string $separator): array|string
     {
@@ -72,6 +73,10 @@ class Chunk extends BaseConcat
         }
 
         foreach ($chunks as &$chunk) {
+            if (count($chunk) !== count($this->arrayKeys)) {
+                $chunk = array_pad($chunk, count($this->arrayKeys), null);
+            }
+
             $chunk = array_combine($this->arrayKeys, $chunk);
         }
 
