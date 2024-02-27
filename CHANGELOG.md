@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.22] - 2024-02-27
+
+* Add collection converter HighestNumber
+
 ### [0.1.21] - 2024-02-26
 
 * Add scalar converter Combine
