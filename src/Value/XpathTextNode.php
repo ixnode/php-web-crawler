@@ -53,7 +53,7 @@ class XpathTextNode extends BaseValue
                 throw new LogicException('Unexpected result from xpath query');
             }
 
-            return $this->applyChildren($item->textContent);
+            return $this->applyChildren($item->textContent, true);
         }
 
         $data = [];

@@ -133,6 +133,7 @@ abstract class BaseValue implements Value
 
     /**
      * @param string|int|float|bool|null $value
+     * @param bool $applyAfter
      * @return Json|string|int|float|bool|null
      * @throws FileNotFoundException
      * @throws FileNotReadableException
@@ -140,12 +141,17 @@ abstract class BaseValue implements Value
      * @throws FunctionReplaceException
      * @throws JsonException
      * @throws TypeInvalidException
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
-    protected function applyChildren(string|int|float|bool|null $value): Json|string|int|float|bool|null
+    protected function applyChildren(string|int|float|bool|null $value, bool $applyAfter = false): Json|string|int|float|bool|null
     {
         /* Apply all filters to value. */
         foreach ($this->scalarConverters as $converter) {
             $value = $converter->getValue($value);
+        }
+
+        if ($applyAfter) {
+            $value = $this->applyChildrenAfter($value);
         }
 
         if (count($this->sources) <= 0) {
@@ -161,6 +167,19 @@ abstract class BaseValue implements Value
         }
 
         return new Json($data);
+    }
+
+    /**
+     * @param string|int|float|bool|null $value
+     * @return Json|string|int|float|bool|null
+     */
+    protected function applyChildrenAfter(string|int|float|bool|null $value): Json|string|int|float|bool|null
+    {
+        foreach ($this->scalarAfterArrayConverters as $scalarAfterArrayConverter) {
+            $value = $scalarAfterArrayConverter->getValue($value);
+        }
+
+        return $value;
     }
 
     /**
@@ -181,11 +200,7 @@ abstract class BaseValue implements Value
         }
 
         if (!is_array($value)) {
-            foreach ($this->scalarAfterArrayConverters as $scalarAfterArrayConverter) {
-                $value = $scalarAfterArrayConverter->getValue($value);
-            }
-
-            return $value;
+            return $this->applyChildrenAfter($value);
         }
 
         return new Json($value);
