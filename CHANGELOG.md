@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Releases
 
+### [0.1.24] - 2024-02-28
+
+* Execute applyChildrenAfter if only one node was found in XpathTextNode
+
 ### [0.1.23] - 2024-02-27
 
 * Fix Chunk class: array_combine() must have the same number of elements
